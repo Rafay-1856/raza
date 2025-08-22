@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday My Friend!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Quicksand", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        color: white;
+        overflow-x: hidden;
+      }
+
+      .handwritten {
+        font-family: "Pacifico", cursive;
+      }
+
+      .cake-container {
+        transition: all 0.5s ease;
+        cursor: pointer;
+      }
+
+      .cake-container:hover {
+        transform: scale(1.05);
+      }
+
+      .cake-container.cut {
+        transform: scale(0.9) rotate(-5deg);
+        opacity: 0.8;
+      }
+
+      /* Enhanced Fireworks Styles */
+      .firework {
+        position: fixed;
+        pointer-events: none;
+        z-index: 1000;
+      }
+
+      .firework-particle {
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        animation: firework-explode 1.5s ease-out forwards;
+      }
+
+      @keyframes firework-explode {
+        0% {
+          transform: translate(0, 0) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(var(--tx), var(--ty)) scale(0);
+          opacity: 0;
+        }
+      }
+
+      .big-firework {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #fff 30%, transparent 70%);
+        animation: big-explode 2s ease-out forwards;
+        z-index: 1001;
+      }
+
+      @keyframes big-explode {
+        0% {
+          transform: scale(1);
+          opacity: 1;
+          box-shadow: 0 0 20px 10px rgba(255, 255, 255, 0.8);
+        }
+        50% {
+          transform: scale(3);
+          opacity: 0.8;
+          box-shadow: 0 0 40px 20px rgba(255, 215, 0, 0.6);
+        }
+        100% {
+          transform: scale(5);
+          opacity: 0;
+          box-shadow: 0 0 60px 30px rgba(255, 69, 0, 0.4);
+        }
+      }
+
+      .sparkle {
+        position: fixed;
+        width: 3px;
+        height: 15px;
+        background: linear-gradient(to bottom, transparent, #fff, transparent);
+        animation: sparkle-fall 3s linear forwards;
+        z-index: 999;
+      }
+
+      @keyframes sparkle-fall {
+        0% {
+          transform: translateY(-100vh) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      .wish-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .wish-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      }
+
+      .memory-card {
+        transition: all 0.3s ease;
+        overflow: hidden;
+      }
+
+      .memory-card:hover {
+        transform: scale(1.05);
+      }
+
+      .memory-card img {
+        transition: transform 0.3s ease;
+      }
+
+      .memory-card:hover img {
+        transform: scale(1.1);
+      }
+
+      .confetti {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        opacity: 0;
+        animation: confetti-fall 5s linear forwards;
+        z-index: 998;
+      }
+
+      @keyframes confetti-fall {
+        0% {
+          transform: translateY(-100vh) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(100vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+
+      .fireworks-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 997;
+      }
+
+      .birthday-person-photo {
+        transition: all 0.5s ease;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .birthday-person-photo:hover {
+        transform: scale(1.02);
+        border-color: rgba(255, 255, 255, 0.6);
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+      }
+
+      .photo-frame {
+        position: relative;
+        padding: 12px;
+        background: linear-gradient(45deg, #ff6b6b, #f9ca24, #6c5ce7);
+        border-radius: 20px;
+        transform-style: preserve-3d;
+      }
+
+      .photo-frame::before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        right: -5px;
+        bottom: -5px;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        border-radius: 25px;
+        z-index: -1;
+        animation: shimmer 3s ease-in-out infinite;
+      }
+
+      @keyframes shimmer {
+        0%,
+        100% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 0.8;
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen">
+    <!-- Fireworks Overlay -->
+    <div id="fireworksOverlay" class="fireworks-overlay"></div>
+
+    <!-- Hero Section with Cake -->
+    <section
+      id="hero"
+      class="min-h-screen flex flex-col items-center justify-center px-4 text-center relative z-10"
+    >
+      <div class="mb-8">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4 handwritten">
+          Happy Birthday!
+        </h1>
+        <p class="text-xl md:text-2xl opacity-90">To my amazing friend</p>
+      </div>
+
+      <div class="cake-container relative mb-8" id="cake">
+        <img
+          src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/723f20f4-4f33-489d-811b-c5c8365a33ec.png"
+          alt="Beautiful birthday cake with multiple layers, vanilla frosting, colorful sprinkles, and lit candles on top"
+          class="w-48 md:w-64 h-64 md:h-80 object-cover rounded-lg shadow-2xl"
+          onerror="this.style.display='none'; this.parentElement.innerHTML='🎂'; this.parentElement.className+=' text-6xl'"
+        />
+      </div>
+
+      <button
+        id="cutCakeBtn"
+        class="bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-110 shadow-lg relative z-20"
+      >
+        ✂ Cut the Cake for Fireworks!
+      </button>
+
+      <div class="mt-12 animate-bounce">
+        <div class="text-sm opacity-80">↓ Scroll down for more surprises ↓</div>
+      </div>
+    </section>
+
+    <!-- Birthday Person Photo Section -->
+    <section
+      id="birthdayPhoto"
+      class="py-20 px-4 bg-white bg-opacity-10 relative z-10"
+    >
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-8 handwritten">
+          The Star of the Day! 🌟
+        </h2>
+        <p class="text-xl mb-12 opacity-90">
+          Here's our amazing birthday friend!
+        </p>
+
+        <div class="flex justify-center">
+          <div class="photo-frame">
+            <img
+              src="./ASSETS/1.jpg"
+              alt="Birthday person smiling happily with party hat and confetti in background - replace with your friend's actual photo"
+              class="birthday-person-photo w-64 md:w-80 h-80 md:h-96 object-cover rounded-xl"
+              onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'w-64 md:w-80 h-80 md:h-96 bg-gradient-to-br from-pink-400 to-purple-500 rounded-xl flex items-center justify-center text-white text-lg\'><p>Upload your friend\\'s photo here!</p></div>'"
+            />
+          </div>
+        </div>
+
+        <div class="mt-8 bg-white bg-opacity-10 rounded-2xl p-6">
+          <h3 class="text-2xl font-bold mb-4 handwritten">Special Message</h3>
+          <p class="text-lg leading-relaxed opacity-90">
+            "On your special day, I want you to know how much you mean to me.
+            You're not just a friend, you're family. May this year bring you
+            endless joy, success, and beautiful moments! 🎉"
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wishes Section -->
+    <section id="wishes" class="py-20 px-4 bg-white bg-opacity-5 relative z-10">
+      <div class="max-w-4xl mx-auto">
+        <h2
+          class="text-3xl md:text-4xl font-bold text-center mb-12 handwritten"
+        >
+          Send Your Wishes
+        </h2>
+
+        <div class="bg-white bg-opacity-10 rounded-2xl p-6 md:p-8 mb-12">
+          <form id="wishForm" class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium mb-2">Your Name</label>
+              <input
+                type="text"
+                id="wisherName"
+                class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+                placeholder="Enter your name"
+                required
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2"
+                >Your Birthday Wish</label
+              >
+              <textarea
+                id="wishMessage"
+                rows="4"
+                class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400"
+                placeholder="Write your heartfelt wish here..."
+                required
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="w-full bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105"
+            >
+              Send Wish 💫
+            </button>
+          </form>
+        </div>
+
+        <div
+          id="wishesContainer"
+          class="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+        >
+          <!-- Wishes will be displayed here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Memories Section -->
+    <section id="memories" class="py-20 px-4 relative z-10">
+      <div class="max-w-6xl mx-auto">
+        <h2
+          class="text-3xl md:text-4xl font-bold text-center mb-12 handwritten"
+        >
+          Our Beautiful Memories
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="memory-card group rounded-2xl overflow-hidden shadow-2xl">
+            <img
+              src="./ASSETS/in engagement.jpg"
+              alt="Friends laughing together at a cafe with coffee cups on the table during golden hour"
+              class="w-full h-48 object-cover"
+              onerror="this.style.display='none'; this.parentElement.innerHTML='📸 Memory 1'; this.parentElement.className+=' flex items-center justify-center bg-gray-200 text-black p-4'"
+            />
+            <div class="p-4 bg-white bg-opacity-10">
+              <p class="text-sm opacity-90">In cousin engagement</p>
+            </div>
+          </div>
+
+          <div class="memory-card group rounded-2xl overflow-hidden shadow-2xl">
+            <img
+              src="./ASSETS/1st eid.jpg"
+              alt="Group of friends hiking on a mountain trail with scenic valley views in the background"
+              class="w-full h-48 object-cover"
+              onerror="this.style.display='none'; this.parentElement.innerHTML='📸 Memory 2'; this.parentElement.className+=' flex items-center justify-center bg-gray-200 text-black p-4'"
+            />
+            <div class="p-4 bg-white bg-opacity-10">
+              <p class="text-sm opacity-90">1st Day of Eid</p>
+            </div>
+          </div>
+
+          <div class="memory-card group rounded-2xl overflow-hidden shadow-2xl">
+            <img
+              src="./ASSETS/his birthday.jpg"
+              alt="Birthday celebration from last year with balloons, party hats, and a smaller cake"
+              class="w-full h-48 object-cover"
+              onerror="this.style.display='none'; this.parentElement.innerHTML='📸 Memory 3'; this.parentElement.className+=' flex items-center justify-center bg-gray-200 text-black p-4'"
+            />
+            <div class="p-4 bg-white bg-opacity-10">
+              <p class="text-sm opacity-90">In His Birthday 🎈</p>
+            </div>
+          </div>
+
+          <div class="memory-card group rounded-2xl overflow-hidden shadow-2xl">
+            <img
+              src="./ASSETS/hotel.jpg"
+              alt="Beach sunset with friends sitting around a bonfire, silhouetted against orange sky"
+              class="w-full h-48 object-cover"
+              onerror="this.style.display='none'; this.parentElement.innerHTML='📸 Memory 4'; this.parentElement.className+=' flex items-center justify-center bg-gray-200 text-black p-4'"
+            />
+            <div class="p-4 bg-white bg-opacity-10">
+              <p class="text-sm opacity-90">Going to Hotel</p>
+            </div>
+          </div>
+
+          <div class="memory-card group rounded-2xl overflow-hidden shadow-2xl">
+            <video
+              src="./ASSETS/video/WhatsApp Video 2025-08-22 at 12.46.28_e0456632.mp4"
+              controls
+              autoplay
+              loop
+              height="100"
+            ></video>
+            <div class="p-4 bg-white bg-opacity-10">
+              <p class="text-sm opacity-90">Concert night 🎵</p>
+            </div>
+          </div>
+
+          <div class="memory-card group rounded-2xl overflow-hidden shadow-2xl">
+            <img
+              src="./ASSETS/epic road.jpg"
+              alt="Road trip moment with friends in car, windows down, laughing with scenic landscape passing by"
+              class="w-full h-48 object-cover"
+              onerror="this.style.display='none'; this.parentElement.innerHTML='📸 Memory 6'; this.parentElement.className+=' flex items-center justify-center bg-gray-200 text-black p-4'"
+            />
+            <div class="p-4 bg-white bg-opacity-10">
+              <p class="text-sm opacity-90">going to Epic road trip 🚗</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 text-center bg-black bg-opacity-20 relative z-10">
+      <p class="text-sm opacity-80">
+        Made with Khizar-siddiqi ❤ for my amazing friend (RAZA) | Happy
+        Birthday!
+      </p>
+    </footer>
+  </body>
+</html>
